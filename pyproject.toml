@@ -9,6 +9,9 @@ python = "^3.8"
 Django = "^3.2.4"
 psycopg2-binary = "^2.9.1"
 djangorestframework = "^3.12.4"
+ariadne = "^0.13.0"
+uvicorn = "^0.14.0"
+ariadne-django = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
 
