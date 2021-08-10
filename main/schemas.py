@@ -1,12 +1,12 @@
+import asyncio
 from typing import Any
 
-from ariadne.asgi import GraphQL
 from graphql import GraphQLResolveInfo
 
 from main.models import Author, Post
 
 from ariadne import QueryType, make_executable_schema, gql, ObjectType, \
-    snake_case_fallback_resolvers, MutationType
+    snake_case_fallback_resolvers, MutationType, SubscriptionType
 
 type_defs = gql("""
     type Query {
@@ -47,6 +47,10 @@ type_defs = gql("""
         contents: String
         author_id: ID
     }
+    
+    type Subscription {
+        counter: Int!
+    }
 """)
 
 # Create ObjectType instance for Query type defined in our schema...
@@ -80,6 +84,9 @@ def resolve_posts(obj, info):
 def resolve_all_author(*_, email):
     return Author.objects.get(email=email)
 
+###########################################
+# Mutation
+
 
 @mutation.field("createOrUpdateAuthor")
 def resolve_create_or_update_author(*_, input):
@@ -101,4 +108,32 @@ def resolve_create_or_update_post(*_, input):
     return post
 
 
-schema = make_executable_schema(type_defs, [query, author_type, post_type, mutation, snake_case_fallback_resolvers])
+#######################################
+"""
+Subscription requires to provide two functions for each field.
+
+- generator is a function that yields data we're going to send to the client.
+ It has to implement the AsyncGenerator protocol.
+- resolver that tells the server how to send data to the client. 
+
+After the last value is yielded the generator returns, the server tells the client that no more data will be available, 
+and the subscription is complete.
+"""
+
+subscription = SubscriptionType()
+
+
+@subscription.source("counter")
+async def counter_generator(obj, info):
+    for i in range(5):
+        await asyncio.sleep(1)
+        yield i
+
+
+@subscription.field("counter")
+def counter_resolver(count, info):
+    return count + 1
+
+
+schema = make_executable_schema(type_defs, [query, author_type, post_type, mutation, subscription, snake_case_fallback_resolvers])
+

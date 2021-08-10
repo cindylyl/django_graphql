@@ -9,8 +9,17 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
 
 import os
 
-from django.core.asgi import get_asgi_application
+from ariadne.asgi import GraphQL
+from channels.http import AsgiHandler
+from channels.routing import URLRouter
+from django.urls import path
+
+from main.schemas import schema
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_graphql.settings')
 
-application = get_asgi_application()
+
+application = URLRouter([
+    path("graphql/", GraphQL(schema, debug=True)),
+    path("", AsgiHandler),
+])

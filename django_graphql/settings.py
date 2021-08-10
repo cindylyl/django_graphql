@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "ariadne_django",
     'main',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'django_graphql.wsgi.application'
+
+ASGI_APPLICATION = "django_graphql.asgi.application"
 
 
 # Database
