@@ -12,7 +12,7 @@ import os
 from ariadne.asgi import GraphQL
 from channels.http import AsgiHandler
 from channels.routing import URLRouter
-from django.urls import path
+from django.urls import path, re_path
 
 from main.schemas import schema
 
@@ -21,5 +21,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_graphql.settings')
 
 application = URLRouter([
     path("graphql/", GraphQL(schema, debug=True)),
-    path("", AsgiHandler),
+    re_path("", AsgiHandler),
 ])

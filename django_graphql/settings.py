@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "ariadne_django",
+    # "ariadne_django",
     'main',
+    "ariadne.contrib.django",
     'channels',
 ]
 

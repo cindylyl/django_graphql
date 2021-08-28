@@ -135,5 +135,8 @@ def counter_resolver(count, info):
     return count + 1
 
 
-schema = make_executable_schema(type_defs, [query, author_type, post_type, mutation, subscription, snake_case_fallback_resolvers])
+schema = make_executable_schema(
+    type_defs,
+    [query, author_type, post_type, mutation, subscription, snake_case_fallback_resolvers]
+)
 
