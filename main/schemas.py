@@ -36,8 +36,8 @@ type_defs = gql("""
     
     input AuthorInput {
         id: ID
-        firstName: String
-        lastName: String
+        first_name: String
+        last_name: String
         email: String
     }
     
@@ -57,8 +57,6 @@ type_defs = gql("""
 query = QueryType()
 author_type = ObjectType("AuthorType")
 post_type = ObjectType("PostType")
-
-mutation = MutationType()
 
 
 # bind resolvers to its field defined on type_defs
@@ -86,6 +84,9 @@ def resolve_author_by_email(*_, email):
 
 ###########################################
 # Mutation
+
+
+mutation = MutationType()
 
 
 @mutation.field("createOrUpdateAuthor")
