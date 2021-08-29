@@ -53,7 +53,7 @@ type_defs = gql("""
     }
 """)
 
-# Create ObjectType instance for Query type defined in our schema...
+# Create ObjectType instances for types defined in our schema...
 query = QueryType()
 author_type = ObjectType("AuthorType")
 post_type = ObjectType("PostType")
@@ -63,7 +63,7 @@ mutation = MutationType()
 
 # bind resolvers to its field defined on type_defs
 @query.field("allAuthors")
-def resolve_all_author(obj: Any, info: GraphQLResolveInfo):
+def resolve_all_authors(obj: Any, info: GraphQLResolveInfo):
     """
 
     :param obj: `obj` is a value returned by a parent resolver.
@@ -81,7 +81,7 @@ def resolve_posts(obj, info):
 
 
 @query.field("authorByEmail")
-def resolve_all_author(*_, email):
+def resolve_author_by_email(*_, email):
     return Author.objects.get(email=email)
 
 ###########################################
